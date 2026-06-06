@@ -40,11 +40,11 @@ function sendMessage() {
         <div class="form-row">
           <div class="form-group">
             <label class="form-label">{{ t('contact_name') }}</label>
-            <input class="form-input" v-model="form.name" placeholder="John Doe" />
+            <input class="form-input" v-model="form.name" placeholder="Enter your name" />
           </div>
           <div class="form-group">
             <label class="form-label">{{ t('contact_email') }}</label>
-            <input class="form-input" v-model="form.email" placeholder="john@example.com" type="email" />
+            <input class="form-input" v-model="form.email" placeholder="Enter your email" type="email" />
           </div>
         </div>
         <div class="form-group">
