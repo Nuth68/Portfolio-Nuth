@@ -1,0 +1,73 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #f0f2f5;
+  --surface: #ffffff;
+  --surface2: #f7f8fa;
+  --border: #e2e5ea;
+  --border2: #d0d4db;
+  --text: #1a1d23;
+  --text2: #5a6070;
+  --text3: #8c94a3;
+  --accent: #d63031;
+  --accent2: #e17055;
+  --green: #00b894;
+  --blue: #0984e3;
+  --yellow: #fdcb6e;
+  --purple: #6c5ce7;
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'IBM Plex Sans', sans-serif;
+  --nav-h: 56px;
+  --sidebar-w: 80px;
+  --nav-bg: rgba(255,255,255,0.92);
+  --nav-border: var(--border);
+  --nav-text: rgba(26,29,35,0.4);
+  --glass: rgba(255,255,255,0.92);
+}
+
+html { scroll-behavior: smooth; }
+html.dark {
+  --bg: #000000;
+  --surface: #111111;
+  --surface2: #1a1a1a;
+  --border: #222222;
+  --border2: #2a2a2a;
+  --text: #e8eaed;
+  --text2: #9aa0a8;
+  --text3: #6b7280;
+  --nav-bg: rgba(17,17,17,0.92);
+  --nav-border: #222222;
+  --nav-text: rgba(232,234,237,0.4);
+  --glass: rgba(26,26,26,0.92);
+}
+body { font-family: var(--sans); background: var(--bg); color: var(--text); font-size: 14px; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+.cursor-blink { animation: blink 1s step-end infinite; }
+.fade-up { animation: fadeUp 0.5s ease forwards; opacity: 0; }
+.delay-1 { animation-delay: 0.05s; }
+.delay-2 { animation-delay: 0.1s; }
+.delay-3 { animation-delay: 0.15s; }
+.delay-4 { animation-delay: 0.2s; }
+.delay-5 { animation-delay: 0.25s; }
+.delay-6 { animation-delay: 0.3s; }
+
+@media print {
+  .sidebar, nav, .matrix-rain, footer { display: none !important; }
+  .main { margin: 0 !important; }
+  .hero { background: #fff !important; }
+  .section { background: #fff !important; }
+  .contact-form-card, .connections-card, .system-status-card { break-inside: avoid; }
+}
+
+@media (max-width: 1024px) {
+  :root { --sidebar-w: 0px; }
+}
+@media (max-width: 600px) {
+  :root { --sidebar-w: 0px; }
+}
