@@ -30,7 +30,7 @@ function goTo(id: string) {
 }
 function openGithub() {
   open.value = false
-  window.open('https://github.com', '_blank', 'noopener,noreferrer')
+  window.open('https://github.com/Nuth68', '_blank', 'noopener,noreferrer')
 }
 </script>
 

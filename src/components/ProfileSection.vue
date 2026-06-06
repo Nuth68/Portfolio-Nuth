@@ -9,7 +9,8 @@ const qrDataUrl = ref('')
 const portfolioUrl = ref(window.location.origin)
 
 onMounted(async () => {
-  const QRCode = (await import('qrcode')).default
+  // @ts-ignore: qrcode has no bundled TypeScript declaration
+  const QRCode = (await import('qrcode')).default as any
   qrDataUrl.value = await QRCode.toDataURL(window.location.origin, {
     width: 140,
     margin: 1,
@@ -18,7 +19,7 @@ onMounted(async () => {
 })
 
 async function exportPdf() {
-  const html2pdf = (await import('html2pdf.js')).default
+  const html2pdf = (await import('html2pdf.js')).default as any
   exporting.value = true
   const el = document.querySelector('.cv-card') as HTMLElement
   if (!el) { exporting.value = false; return }
@@ -26,22 +27,27 @@ async function exportPdf() {
   const origSectionPad = section?.style.padding
   const origMaxW = el.style.maxWidth
   const origW = el.style.width
+  const origBoxShadow = el.style.boxShadow
   if (section) section.style.padding = '0'
   el.style.maxWidth = 'none'
-  el.style.width = '1190px'
+  el.style.width = '794px'
+  el.style.boxShadow = 'none'
+  el.style.boxSizing = 'border-box'
   await html2pdf()
     .set({
       margin: 0,
       filename: 'CV_Student_Developer.pdf',
       image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', width: 1190 },
-      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
-      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
+      html2canvas: { scale: 2.5, useCORS: true, backgroundColor: '#ffffff', width: 794, windowWidth: 794 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      pagebreak: { mode: ['css'] },
     })
     .from(el)
     .save()
   el.style.maxWidth = origMaxW
   el.style.width = origW
+  el.style.boxShadow = origBoxShadow
+  el.style.boxSizing = ''
   if (section) section.style.padding = origSectionPad
   exporting.value = false
 }
@@ -216,7 +222,7 @@ onMounted(() => {
 
 <style scoped>
 .cv-card { --ocean: #0077b6; }
-.section { padding: 52px 40px; background: transparent; min-height: 80vh; }
+.section { padding: 24px 24px 32px; background: transparent; min-height: 100vh; }
 .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
 .section-bar { width: 4px; height: 22px; background: var(--accent); border-radius: 2px; }
 .section-title { font-family: var(--mono); font-size: 13px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text); margin-right: auto; }
@@ -231,7 +237,7 @@ onMounted(() => {
 .print-btn.loading { opacity: 0.6; cursor: wait; }
 .cv-card {
   background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-  overflow: hidden; max-width: 860px; margin: 0 auto; box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  overflow: hidden; width: min(calc(100vw - 48px), 1140px); max-width: 100%; margin: 0 auto; box-shadow: 0 4px 24px rgba(0,0,0,0.06);
 }
 .cv-header {
   display: flex; align-items: center; gap: 24px;
@@ -253,7 +259,7 @@ onMounted(() => {
   display: flex; align-items: center; gap: 4px;
 }
 .cv-body { padding: 36px; }
-.cv-section { margin-bottom: 28px; }
+.cv-section { margin-bottom: 28px; break-inside: avoid; page-break-inside: avoid; }
 .cv-section:last-child { margin-bottom: 0; }
 .cv-section-title {
   font-family: var(--mono); font-size: 11px; font-weight: 700;
@@ -287,6 +293,12 @@ onMounted(() => {
 .cv-qr-section { text-align: center; }
 .cv-qr { width: 120px; height: 120px; display: block; margin: 0 auto; border-radius: 4px; }
 .cv-qr-url { font-family: var(--mono); font-size: 8px; color: var(--text3); margin-top: 6px; word-break: break-all; }
+@media print {
+  .section { padding: 0; background: transparent; }
+  .section-header, .print-btn { display: none !important; }
+  .cv-card { box-shadow: none; border: none; margin: 0; }
+  .cv-body { padding: 24px; }
+}
 @media (max-width: 1024px) {
   .section { padding: 32px 20px; }
   .cv-side-layout { grid-template-columns: 1fr; gap: 24px; }
