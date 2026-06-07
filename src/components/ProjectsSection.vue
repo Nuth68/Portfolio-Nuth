@@ -8,6 +8,12 @@ interface Project {
   status: string
   desc: string
   tags: string[]
+  role: string
+  duration: string
+  features: string[]
+  challenge: string
+  highlights: string[]
+  links: { github: string; demo: string }
 }
 
 defineProps<{ projects: Project[] }>()
@@ -23,7 +29,7 @@ const emit = defineEmits<{ select: [project: Project] }>()
     <div class="projects-grid">
       <div class="project-card fade-up" v-for="(p, i) in projects" :key="p.name" :style="`animation-delay:${i*0.07}s`" @click="emit('select', p)">
         <div class="card-top">
-          <div class="card-icon">{{ p.icon }}</div>
+          <div class="card-icon" v-html="p.icon"></div>
           <span class="status-badge" :class="`status-${p.status.toLowerCase()}`">&#9679; {{ p.status }}</span>
         </div>
         <div class="card-name">{{ p.name }}</div>
@@ -56,21 +62,22 @@ const emit = defineEmits<{ select: [project: Project] }>()
 }
 @media (max-width: 600px) {
   .section { padding: 24px 16px; }
-  .projects-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .projects-grid { grid-template-columns: 1fr; gap: 10px; }
   .project-card { padding: 14px; }
   .card-top { gap: 8px; }
   .status-badge { font-size: 8px; padding: 2px 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60%; }
 }
 .project-card {
   background: var(--glass); backdrop-filter: blur(8px); border: 1px solid var(--border); border-radius: 10px;
-  padding: 20px; transition: all 0.2s; cursor: pointer; position: relative; overflow: hidden;
+  padding: 20px; transition: all 0.2s; position: relative; overflow: hidden;
   display: flex; flex-direction: column;
 }
 .project-card::before { content: ''; position: absolute; inset: 0; opacity: 0; background: linear-gradient(135deg, rgba(214,48,49,0.04), transparent); transition: opacity 0.3s; }
 .project-card:hover { border-color: var(--border2); box-shadow: 0 4px 20px rgba(0,0,0,0.07); transform: translateY(-2px); }
 .project-card:hover::before { opacity: 1; }
 .card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
-.card-icon { width: 38px; height: 38px; border-radius: 8px; background: var(--bg); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.card-icon { width: 38px; height: 38px; border-radius: 8px; background: var(--bg); display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--accent); }
+.card-icon svg { stroke: var(--accent); }
 .status-badge { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 20px; }
 .status-active { background: rgba(0,184,148,0.12); color: var(--green); }
 .status-secure { background: rgba(9,132,227,0.12); color: var(--blue); }
@@ -84,7 +91,7 @@ const emit = defineEmits<{ select: [project: Project] }>()
 .see-more-card {
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
   background: var(--glass); backdrop-filter: blur(8px); border: 1px dashed var(--border);
-  border-radius: 10px; padding: 20px; cursor: pointer; text-decoration: none;
+  border-radius: 10px; padding: 20px; text-decoration: none;
   transition: all 0.2s; min-height: 200px;
 }
 .see-more-card:hover { border-color: var(--accent); background: var(--surface2); }

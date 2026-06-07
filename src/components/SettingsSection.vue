@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useI18n, toggleLocale } from '../i18n'
 
+const emit = defineEmits<{ navigate: [page: string] }>()
 const { t, locale } = useI18n()
 const isDark = ref(localStorage.getItem('dark') === 'true')
 
@@ -23,6 +24,9 @@ function printPdf() { window.print() }
 <template>
   <section class="section" id="settings">
     <div class="section-header">
+      <button class="back-btn" @click="emit('navigate', 'home')">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
       <div class="section-bar"></div>
       <h2 class="section-title">{{ t('settings_title') }}</h2>
     </div>
@@ -83,9 +87,18 @@ function printPdf() { window.print() }
           <div class="setting-value">DEV_OS Portfolio</div>
         </div>
         <div class="setting-meta">
-          <div class="meta-row"><span class="meta-key">{{ t('settings_version') }}</span><span class="meta-val">{{ t('settings_v') }}</span></div>
-          <div class="meta-row"><span class="meta-key">{{ t('settings_build') }}</span><span class="meta-val">{{ t('settings_b') }}</span></div>
-          <div class="meta-row"><span class="meta-key">{{ t('settings_engine') }}</span><span class="meta-val">{{ t('settings_e') }}</span></div>
+          <div class="meta-row">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><polyline points="12 2 22 7 12 12 2 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            <span class="meta-key">{{ t('settings_version') }}</span><span class="meta-val">{{ t('settings_v') }}</span>
+          </div>
+          <div class="meta-row">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+            <span class="meta-key">{{ t('settings_build') }}</span><span class="meta-val">{{ t('settings_b') }}</span>
+          </div>
+          <div class="meta-row">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span class="meta-key">{{ t('settings_engine') }}</span><span class="meta-val">{{ t('settings_e') }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -95,16 +108,30 @@ function printPdf() { window.print() }
 <style scoped>
 .section { padding: 52px 40px; background: transparent; border-top: 1px solid var(--border); }
 .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
+.back-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 8px;
+ 
+  color: var(--text2);
+  display: flex;
+  align-items: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.back-btn:hover { color: var(--accent); border-color: var(--accent); }
+
 .section-bar { width: 4px; height: 22px; background: var(--accent); border-radius: 2px; }
 .section-title { font-family: var(--mono); font-size: 13px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text); }
 .settings-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
 .setting-card {
   background: var(--glass); backdrop-filter: blur(8px); border: 1px solid var(--border); border-radius: 10px;
-  padding: 20px; cursor: pointer; transition: all 0.2s;
+  padding: 20px; transition: all 0.2s;
   display: flex; align-items: center; gap: 14px;
 }
 .setting-card:hover { border-color: var(--border2); }
-.info-card { cursor: default; }
+.info-card {  }
 .setting-icon {
   width: 42px; height: 42px; border-radius: 10px;
   background: var(--bg); border: 1px solid var(--border);
@@ -136,7 +163,8 @@ function printPdf() { window.print() }
   display: flex; flex-direction: column; gap: 4px; flex-shrink: 0;
   padding-left: 14px; border-left: 1px solid var(--border);
 }
-.meta-row { display: flex; gap: 8px; align-items: center; }
+.meta-row { display: flex; gap: 6px; align-items: center; }
+.meta-row svg { stroke: var(--accent); flex-shrink: 0; }
 .meta-key { font-family: var(--mono); font-size: 8px; font-weight: 700; color: var(--text3); letter-spacing: 0.08em; text-transform: uppercase; }
 .meta-val { font-family: var(--mono); font-size: 9px; font-weight: 600; color: var(--text2); }
 @media (max-width: 1024px) {

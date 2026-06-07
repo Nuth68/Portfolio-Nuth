@@ -101,7 +101,7 @@ onBeforeUnmount(() => clearInterval(timeTimer))
   border: 1px solid var(--border); white-space: nowrap;
 }
 .status-dark-btn {
-  background: none; border: none; cursor: pointer;
+  background: none; border: none;
   font-size: 13px; line-height: 1;
   color: var(--text3); padding: 2px;
   display: flex; align-items: center; justify-content: center;

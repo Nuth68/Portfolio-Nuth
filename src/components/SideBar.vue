@@ -39,11 +39,7 @@ function openGithub() {
     <span class="arrow">{{ open ? '\u276E' : '\u276F' }}</span>
   </button>
   <aside class="sidebar" :class="{ open }">
-    <div class="sidebar-item active" @click="goTo('home')">
-      <span class="s-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
-      <span class="s-label">{{ t('sidebar_home') }}</span>
-    </div>
-    <div class="sidebar-item" @click="openGithub">
+      <div class="sidebar-item" @click="openGithub">
       <span class="s-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg></span>
       <span class="s-label">{{ t('sidebar_git') }}</span>
     </div>
@@ -93,7 +89,7 @@ function openGithub() {
   position: fixed; left: 0; top: 50%; transform: translateY(-50%);
   width: 28px; height: 48px; border: 1px solid var(--border);
   border-left: none; border-radius: 0 8px 8px 0;
-  background: var(--surface); color: var(--text3); cursor: pointer;
+  background: var(--surface); color: var(--text3);
   display: none; align-items: center; justify-content: center; z-index: 201;
   transition: left 0.3s ease, color 0.2s;
 }
@@ -103,7 +99,7 @@ function openGithub() {
 .sidebar-item {
   display: flex; flex-direction: column; align-items: center; gap: 4px;
   width: 64px; padding: 10px 0; border-radius: 10px;
-  color: var(--text3); cursor: pointer; transition: all 0.2s;
+  color: var(--text3); transition: all 0.2s;
 }
 .sidebar-item:hover, .sidebar-item.active { background: var(--bg); color: var(--accent); }
 .s-icon { display: flex; align-items: center; justify-content: center; }

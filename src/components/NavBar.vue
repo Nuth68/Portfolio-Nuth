@@ -73,7 +73,7 @@ nav {
   display: flex; flex-direction: column; align-items: center; gap: 2px;
   font-family: var(--mono); font-size: 10px; font-weight: 600;
   letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--nav-text); text-decoration: none; cursor: pointer;
+  color: var(--nav-text); text-decoration: none;
   padding: 8px 14px; border-radius: 8px;
   transition: all 0.2s ease;
 }

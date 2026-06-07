@@ -40,7 +40,38 @@ html.dark {
   --nav-text: rgba(232,234,237,0.4);
   --glass: rgba(26,26,26,0.92);
 }
-body { font-family: var(--sans); background: var(--bg); color: var(--text); font-size: 14px; }
+body { font-family: var(--sans); background: var(--bg); color: var(--text); font-size: 14px; cursor: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj48ZGVmcz48ZmlsdGVyIGlkPSJnIj48ZmVEcm9wU2hhZG93IGR4PSIwIiBkeT0iMCIgc3RkRGV2aWF0aW9uPSIxLjUiIGZsb29kLWNvbG9yPSIjZDYzMDMxIiBmbG9vZC1vcGFjaXR5PSIwLjYiLz48L2ZpbHRlcj48L2RlZnM+PGcgZmlsdGVyPSJ1cmwoI2cpIiBzdHJva2U9IiNkNjMwMzEiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIGZpbGw9Im5vbmUiPjxjaXJjbGUgY3g9IjE2IiBjeT0iMTYiIHI9IjMiLz48bGluZSB4MT0iMTYiIHkxPSI1IiB4Mj0iMTYiIHkyPSIxMCIvPjxsaW5lIHgxPSIxNiIgeTE9IjIyIiB4Mj0iMTYiIHkyPSIyNyIvPjxsaW5lIHgxPSI1IiB5MT0iMTYiIHgyPSIxMCIgeTI9IjE2Ii8+PGxpbmUgeDE9IjIyIiB5MT0iMTYiIHgyPSIyNyIgeTI9IjE2Ii8+PC9nPjwvc3ZnPg==') 16 16, crosshair !important; }
+* { cursor: inherit !important; }
+a, button, input, textarea, select, label, summary { cursor: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE2IDE2Ij48Y2lyY2xlIGN4PSI4IiBjeT0iOCIgcj0iNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZDYzMDMxIiBzdHJva2Utd2lkdGg9IjIiLz48Y2lyY2xlIGN4PSI4IiBjeT0iOCIgcj0iMS41IiBmaWxsPSIjZDYzMDMxIi8+PC9zdmc+') 8 8, auto !important; }
+/* loading state exception handled inline */
+
+.cursor-dot {
+  position: fixed;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  pointer-events: none;
+  z-index: 999999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, opacity 0.2s;
+  opacity: 0.8;
+  mix-blend-mode: multiply;
+}
+html.dark .cursor-dot { mix-blend-mode: screen; }
+.cursor-dot.hover { width: 6px; height: 6px; opacity: 0.8; }
+
+.cursor-glow {
+  position: fixed;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 999998;
+  transform: translate(-50%, -50%);
+  opacity: 0.25;
+  mix-blend-mode: screen;
+}
+html:not(.dark) .cursor-glow { opacity: 0.15; mix-blend-mode: normal; }
 
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
