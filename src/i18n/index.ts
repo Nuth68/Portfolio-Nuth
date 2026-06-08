@@ -6,8 +6,8 @@ const state = reactive({
 })
 
 export function useI18n() {
-  const t = (key: string): string => {
-    return translations[state.locale]?.[key] ?? key
+  const t = (key: string, fallback?: string): string => {
+    return translations[state.locale]?.[key] ?? fallback ?? key
   }
 
   const locale = computed(() => state.locale)

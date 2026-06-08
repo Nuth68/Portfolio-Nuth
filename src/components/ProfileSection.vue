@@ -68,7 +68,7 @@ async function exportPdf() {
         },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
         pagebreak: { mode: 'css' },
-      })
+      } as any)
       .from(el)
       .save()
 

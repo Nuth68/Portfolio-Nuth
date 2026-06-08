@@ -30,13 +30,15 @@ frame()
 
 let hovered = false
 document.addEventListener('mouseover', e => {
-  if (e.target.closest('a, button, input, textarea, select, label, summary')) {
+  const target = e.target as Element | null
+  if (target?.closest('a, button, input, textarea, select, label, summary')) {
     dot.classList.add('hover')
     hovered = true
   }
 })
 document.addEventListener('mouseout', e => {
-  if (hovered && (!e.relatedTarget || !e.relatedTarget.closest('a, button, input, textarea, select, label, summary'))) {
+  const related = e.relatedTarget as Element | null
+  if (hovered && (!e.relatedTarget || !related?.closest('a, button, input, textarea, select, label, summary'))) {
     dot.classList.remove('hover')
     hovered = false
   }
