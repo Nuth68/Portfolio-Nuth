@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { useI18n } from '../i18n'
+import emailjs from '@emailjs/browser'
 
 const { t } = useI18n()
+
+const EMAILJS_PUBLIC_KEY = 'lTwQO_-_i8yoTXuvm'
+const EMAILJS_SERVICE_ID = 'service_gjbfsxb'
+const EMAILJS_TEMPLATE_ID = 'template_w3m50bk'
 
 interface Connection {
   icon: string
@@ -14,14 +19,46 @@ defineProps<{ connections: Connection[] }>()
 
 const form = reactive({ name: '', email: '', message: '' })
 const sent = ref(false)
+const sending = ref(false)
+const error = ref('')
+const latency = ref('~8ms')
+const online = ref(true)
 
-function sendMessage() {
-  if (form.name && form.email && form.message) {
+function measureLatency() {
+  const start = performance.now()
+  fetch('https://www.google.com/favicon.ico', { mode: 'no-cors', cache: 'no-store' })
+    .then(() => {
+      latency.value = `${Math.round(performance.now() - start)}ms`
+      online.value = true
+    })
+    .catch(() => {
+      online.value = false
+    })
+}
+
+measureLatency()
+setInterval(measureLatency, 30000)
+
+async function sendMessage() {
+  if (!form.name || !form.email || !form.message) return
+  sending.value = true
+  error.value = ''
+  try {
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      from_name: form.name,
+      from_email: form.email,
+      message: form.message,
+      to_email: 'pravevinuth888@gmail.com',
+    }, EMAILJS_PUBLIC_KEY)
     sent.value = true
     form.name = ''
     form.email = ''
     form.message = ''
     setTimeout(() => sent.value = false, 3000)
+  } catch (e) {
+    error.value = 'Failed to send. Try again later.'
+  } finally {
+    sending.value = false
   }
 }
 </script>
@@ -65,10 +102,12 @@ function sendMessage() {
           </label>
           <textarea class="form-textarea" v-model="form.message" placeholder="Type your message here..."></textarea>
         </div>
-        <button class="submit-btn" @click="sendMessage">
-          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-          {{ t('contact_send') }}
+        <button class="submit-btn" :disabled="sending" @click="sendMessage">
+          <svg v-if="!sending" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          <span v-if="sending">Sending...</span>
+          <span v-else>{{ t('contact_send') }}</span>
         </button>
+        <div v-if="error" class="error-msg">{{ error }}</div>
         <div v-if="sent" class="sent-msg">
           <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
           &#10003; Transmission sent successfully.
@@ -96,7 +135,7 @@ function sendMessage() {
               <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
               {{ t('contact_network') }}
             </span>
-            <span class="sys-val sys-online">&#9679; {{ t('contact_online') }}</span>
+            <span class="sys-val" :class="online ? 'sys-online' : 'sys-offline'">&#9679; {{ online ? t('contact_online') : 'OFFLINE' }}</span>
           </div>
           <div class="sys-row">
             <span class="sys-key">
@@ -110,13 +149,13 @@ function sendMessage() {
               <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               {{ t('contact_latency') }}
             </span>
-            <span class="sys-val sys-lat">~8ms</span>
+            <span class="sys-val sys-lat">{{ latency }}</span>
           </div>
           <div class="sys-row" style="margin-top:10px;border:none">
             <span class="node-badge">&#9761; {{ t('contact_node') }}</span>
           </div>
           <div class="sys-row">
-            <span class="node-badge">&#9650; V8.4 &bull; {{ t('contact_stable') }}</span>
+            <span class="node-badge">&#9650; {{ t('contact_stable') }}</span>
           </div>
         </div>
       </div>
@@ -166,7 +205,14 @@ function sendMessage() {
 }
 .submit-btn:hover { background: #c0392b; transform: translateY(-1px); }
 .submit-btn:active { transform: translateY(0); }
+.submit-btn:disabled { opacity: 0.5; cursor: wait; }
 .submit-btn svg { stroke: currentColor; }
+.error-msg {
+  margin-top: 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+}
 .sent-msg {
   margin-top: 12px;
   font-family: var(--mono);
@@ -194,6 +240,7 @@ function sendMessage() {
 .sys-key svg { stroke: var(--text3); }
 .sys-val { font-family: var(--mono); font-size: 10px; font-weight: 600; }
 .sys-online { color: var(--green); }
+.sys-offline { color: var(--accent); }
 .sys-enc { color: var(--blue); }
 .sys-lat { color: var(--text2); }
 .node-badge { font-family: var(--mono); font-size: 9px; background: var(--bg); border: 1px solid var(--border); color: var(--text3); padding: 2px 7px; border-radius: 4px; }

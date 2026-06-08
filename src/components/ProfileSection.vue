@@ -152,23 +152,23 @@ async function exportPdf() {
             </p>
             <p class="detail-line mt">
               <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              pravevinuth888@gmail.com
+              <a href="mailto:pravevinuth888@gmail.com" class="detail-link">pravevinuth888@gmail.com</a>
             </p>
             <p class="detail-line">
               <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-              +855 89 357 087
+              <a href="tel:+85589357087" class="detail-link">+855 89 357 087</a>
             </p>
             <p class="detail-line">
               <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-              github.com/nuth68
+              <a href="https://github.com/nuth68" target="_blank" rel="noopener noreferrer" class="detail-link">github.com/nuth68</a>
             </p>
             <p class="detail-line">
               <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-              linkedin.com/in/pravevinuth
+              <a href="https://www.linkedin.com/in/prave-vinuth-a75b213b7" target="_blank" rel="noopener noreferrer" class="detail-link">https://www.linkedin.com/in/prave-vinuth-a75b213b7</a>
             </p>
             <p class="detail-line">
               <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-              t.me/yourusername
+              <a href="https://t.me/PrAvEvInUtH" target="_blank" rel="noopener noreferrer" class="detail-link">https://t.me/PrAvEvInUtH</a>
             </p>
           </div>
 
@@ -549,6 +549,8 @@ async function exportPdf() {
 }
 .detail-line svg { flex-shrink: 0; stroke: var(--accent); opacity: 0.7; }
 .detail-line.mt { margin-top: 6px; }
+.detail-link { color: inherit; text-decoration: none; font: inherit; }
+.detail-link:hover { opacity: 0.8; }
 
 .skill-item {
   font-family: var(--sans);
